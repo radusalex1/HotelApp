@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HotelApp.ViewModels"
         mc:Ignorable="d"
-        Title="RegisterPage" Height="500" Width="500">
+        Title="RegisterPage" Height="800" Width="700">
     <Window.DataContext>
         <local:RegisterViewModel/>
     </Window.DataContext>
@@ -45,16 +45,13 @@
                 <TextBox HorizontalAlignment="Center" Height="50" MaxLength="35" VerticalAlignment="Top" Width="400" FontFamily="Segoe UI Black" FontSize="20" BorderThickness="2" BorderBrush="Black" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="Transparent" Text="{Binding FirstName}"/>
 
                 <Label Content="LAST NAME" HorizontalAlignment="Center" VerticalAlignment="Top" FontFamily="Segoe UI Black" FontSize="20"/>
-                <TextBox HorizontalAlignment="Center" Height="50" MaxLength="35" VerticalAlignment="Top" Width="400" FontFamily="Segoe UI Black" FontSize="20" BorderThickness="2" BorderBrush="Black" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="Transparent" Text="{Binding LastName}"/>
+                <TextBox HorizontalAlignment="Center" Height="50" MaxLength="35" VerticalAlignment="Top" Width="400" FontFamily="Segoe UI Black" FontSize="20" BorderThickness="2" BorderBrush="Black" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="Transparent" Text="{Binding  LastName}"/>
 
                 <Label Content="EMAIL" HorizontalAlignment="Center" VerticalAlignment="Top" FontFamily="Segoe UI Black" FontSize="20"/>
                 <TextBox HorizontalAlignment="Center" Height="50" MaxLength="35" VerticalAlignment="Top" Width="400" FontFamily="Segoe UI Black" FontSize="20" BorderThickness="2" BorderBrush="Black" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="Transparent" Text="{Binding Email}"/>
 
                 <Label Content="PHONE NUMBER" HorizontalAlignment="Center" VerticalAlignment="Top" FontFamily="Segoe UI Black" FontSize="20"/>
                 <TextBox HorizontalAlignment="Center" Height="50" VerticalAlignment="Top" Width="400" FontFamily="Segoe UI Black" FontSize="20" BorderThickness="2" BorderBrush="Black" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="Transparent" Text="{Binding PhoneNumber}" MaxLength="10"/>
-
-                <Label Content="DELIVERY ADDRESS" HorizontalAlignment="Center" VerticalAlignment="Top" FontFamily="Segoe UI Black" FontSize="20"/>
-                <TextBox HorizontalAlignment="Center" Height="50"  MaxLength="35" VerticalAlignment="Top" Width="400" FontFamily="Segoe UI Black" FontSize="20" BorderThickness="2" BorderBrush="Black" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="Transparent" Text="{Binding Address}"/>
 
                 <Label Content="PASSWORD" HorizontalAlignment="Center" VerticalAlignment="Top" FontFamily="Segoe UI Black" FontSize="20"/>
                 <PasswordBox x:Name="passwordBox" HorizontalAlignment="Center" VerticalAlignment="Top" Height="50" Width="400" Background="Transparent" BorderBrush="Black" BorderThickness="2" FontSize="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>

@@ -16,6 +16,5 @@ namespace HotelApp.Models
 
         public DateTime EndDate { get; set; } = DateTime.Now.AddDays(7);
 
-
     }
 }

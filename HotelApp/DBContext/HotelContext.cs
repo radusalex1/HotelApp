@@ -16,7 +16,6 @@ namespace HotelApp.DBContext
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            
             modelBuilder.Entity<User>().ToTable("T_Users");
             modelBuilder.Entity<Room>().ToTable("T_Rooms");
             modelBuilder.Entity<Reservations>().ToTable("T_Reservations");

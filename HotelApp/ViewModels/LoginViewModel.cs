@@ -1,4 +1,7 @@
 ﻿using HotelApp.Helps;
+using HotelApp.Models;
+using HotelApp.Repositories;
+using HotelApp.Views;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -74,6 +77,23 @@ namespace HotelApp.ViewModels
             }
             else
             {
+                UserRepository userRepository= new UserRepository();    
+                if(userRepository.LogInCheckCredentials(Email,password))
+                {
+                    var x = 3;
+                    ///go to main menu with logged user
+                    HomePage homePage = new HomePage();
+                    HomeViewModel homeViewModel =
+                        new HomeViewModel(userRepository.GetUser(Email));
+                    homePage.DataContext = homeViewModel;
+                    App.Current.MainWindow.Close();
+                    App.Current.MainWindow = homePage;
+                    homePage.Show();
+                }
+                else
+                {
+                    ErrorMessage = "INVALID CREDENTIALS";
+                }
 
             }
 

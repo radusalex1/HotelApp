@@ -1,6 +1,8 @@
 ﻿using HotelApp.DBContext;
 using HotelApp.Helps;
+using HotelApp.Models;
 using HotelApp.Views;
+using System.Linq;
 using System.Windows.Input;
 
 namespace HotelApp.ViewModels
@@ -11,10 +13,27 @@ namespace HotelApp.ViewModels
         {
             try
             {
-                var appSettings = System.Configuration.ConfigurationManager.AppSettings;
-                HotelContext hotelContext = new HotelContext(appSettings["ConnectionStrings"]);
+                var appSettings =
+                    System.Configuration.ConfigurationManager.AppSettings;
+
+                HotelContext hotelContext =
+                    new HotelContext(appSettings["ConnectionStrings"]);
+
                 hotelContext.Database.CreateIfNotExists();
-                
+                //hotelContext.Database.SqlQuery<User>();
+
+                if (!hotelContext.Users.Any())
+                {
+                    User user = new User();
+                    user.Name = "Radu";
+                    user.Surname = "Alexandru";
+                    user.PhoneNumber = "0735125928";
+                    user.Power = 1;
+                    user.Email = "radus_alexandru@yahoo.com";
+                    user.Password = "1234";
+                    hotelContext.Users.Add(user);
+                    hotelContext.SaveChanges();
+                }
             }
             catch
             {
@@ -29,13 +48,13 @@ namespace HotelApp.ViewModels
             {
                 _LoginCommand = new RelayCommand(LogIn);
                 return _LoginCommand;
-                
+
             }
         }
         public void LogIn(object param)
         {
             LoginPage loginPage = new LoginPage();
-            LoginViewModel loginViewModel= new LoginViewModel();
+            LoginViewModel loginViewModel = new LoginViewModel();
             loginPage.DataContext = loginViewModel;
             App.Current.MainWindow.Close();
             App.Current.MainWindow = loginPage;
@@ -56,10 +75,10 @@ namespace HotelApp.ViewModels
         public void SignUp(object param)
         {
             RegisterPage registerPage = new RegisterPage();
-            RegisterViewModel registerViewModel= new RegisterViewModel();
+            RegisterViewModel registerViewModel = new RegisterViewModel();
             registerPage.DataContext = registerViewModel;
             App.Current.MainWindow.Close();
-            App.Current.MainWindow=registerPage;
+            App.Current.MainWindow = registerPage;
             registerPage.Show();
         }
     }

@@ -191,39 +191,33 @@ namespace HotelApp.ViewModels
         {
             string password = (param as PasswordBox).Password;
 
-            Regex regex = new Regex(@"@hotel-employee.com$|@hotelemployee.com$");
-            if (regex.Match(email) != Match.Empty)
+
+            User user = new User();
+            user.Email = Email;
+            user.Name = FirstName;
+            user.Surname = LastName;
+            user.Password = password;
+            user.PhoneNumber = PhoneNumber;
+            user.IsAdmin = false;
+
+            UserRepository userRepository = new UserRepository();
+            if (userRepository.ExistingUser(user) == false)
             {
-                MessageBox.Show("Only the admin can create\nan employee account!", "Account creation failed", MessageBoxButton.OK, MessageBoxImage.Error);
+                userRepository.InsertUser(user);
+
+                LoginPage loginPage = new LoginPage();
+                LoginViewModel loginViewModel = new LoginViewModel();
+
+                loginPage.DataContext = loginViewModel;
+                App.Current.MainWindow.Close();
+                App.Current.MainWindow = loginPage;
+                loginPage.Show();
             }
             else
             {
-                User user = new User();
-                user.Email = Email;
-                user.Name = FirstName;
-                user.Surname = LastName;
-                user.Password = password;
-                user.PhoneNumber = PhoneNumber;
-                user.Power = 1;
-
-                UserRepository userRepository = new UserRepository();
-                if (userRepository.ExistingUser(user) == false)
-                {
-                    userRepository.InsertUser(user);
-                  
-                    LoginPage loginPage = new LoginPage();
-                    LoginViewModel loginViewModel = new LoginViewModel();
-
-                    loginPage.DataContext = loginViewModel;
-                    App.Current.MainWindow.Close();
-                    App.Current.MainWindow = loginPage;
-                    loginPage.Show();
-                }
-                else
-                {
-                    ErrorMessage = "Existing User/Change Email and password";
-                }
+                ErrorMessage = "Existing User/Change Email and password";
             }
+
         }
         #endregion
 

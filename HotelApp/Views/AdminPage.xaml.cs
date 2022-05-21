@@ -3,11 +3,11 @@
 namespace HotelApp.Views
 {
     /// <summary>
-    /// Interaction logic for HomePage.xaml
+    /// Interaction logic for AdminPage.xaml
     /// </summary>
-    public partial class HomePage : Window
+    public partial class AdminPage : Window
     {
-        public HomePage()
+        public AdminPage()
         {
             InitializeComponent();
         }

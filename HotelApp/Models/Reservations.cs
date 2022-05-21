@@ -10,11 +10,13 @@ namespace HotelApp.Models
 
         public User User { get; set; }
 
-        public Room Room { get; set; }  
+        public Room Room { get; set; }
 
-        public DateTime StartDate { get; set; } = DateTime.Now;
+        public Offer Offers { get; set; } = null;
 
-        public DateTime EndDate { get; set; } = DateTime.Now.AddDays(7);
+        public DateTime StartDate { get; set; }
+
+        public DateTime EndDate { get; set; } 
 
     }
 }

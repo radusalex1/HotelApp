@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace HotelApp.Models
+﻿namespace HotelApp.Models
 {
     public class Room
     {
@@ -10,13 +8,8 @@ namespace HotelApp.Models
 
         public int NumberOfPersons { get; set; }
 
-        public bool Available { get; set; }
+        public string Category { get; set; }
 
-        public RoomType TypeOfRoom { get; set; }
-
-        public List<string> Features { get; set; }
-
-        public double PricePerNight { get; set; }
-
+        public string Features { get; set; }
     }
 }

@@ -24,14 +24,54 @@ namespace HotelApp.ViewModels
 
                 if (!hotelContext.Users.Any())
                 {
-                    User user = new User();
-                    user.Name = "Radu";
-                    user.Surname = "Alexandru";
-                    user.PhoneNumber = "0735125928";
-                    user.Power = 1;
-                    user.Email = "radus_alexandru@yahoo.com";
-                    user.Password = "1234";
+                    User user = new()
+                    {
+                        Name = "Radu_User",
+                        Surname = "Alexandru_User",
+                        PhoneNumber = "0735125928",
+                        IsAdmin = false,
+                        Email = "user@yahoo.com",
+                        Password = "1234"
+                    };
                     hotelContext.Users.Add(user);
+
+                    User useradmin = new()
+                    {
+                        Name = "admin",
+                        Surname = "admin",
+                        PhoneNumber = "0735125929",
+                        IsAdmin = true,
+                        Email = "admin@yahoo.com",
+                        Password = "admin"
+                    };
+                    hotelContext.Users.Add(useradmin);
+
+
+                    Offer offer = new()
+                    {
+                        Name = "Oferta pasti",
+                        NumberOfPersons = 4,
+                        StartDate = System.DateTime.Now.Date,
+                        EndDate = System.DateTime.Now.Date.AddDays(3),
+                        Description = "Descriere",
+                        Price = 750
+                    };
+                    hotelContext.Offers.Add(offer);
+
+
+                    Offer offer1 = new()
+                    {
+                        Name = "Oferta craciun",
+                        NumberOfPersons = 4,
+                        StartDate = System.DateTime.Now.Date,
+                        EndDate = System.DateTime.Now.Date.AddDays(3),
+                        Description = "Descriere2",
+                        Price = 800
+                    };
+
+                   
+                    hotelContext.Offers.Add(offer1);
+
                     hotelContext.SaveChanges();
                 }
             }
@@ -48,7 +88,6 @@ namespace HotelApp.ViewModels
             {
                 _LoginCommand = new RelayCommand(LogIn);
                 return _LoginCommand;
-
             }
         }
         public void LogIn(object param)
@@ -68,7 +107,6 @@ namespace HotelApp.ViewModels
             {
                 _RegisterCommand = new RelayCommand(SignUp);
                 return _RegisterCommand;
-
             }
         }
 

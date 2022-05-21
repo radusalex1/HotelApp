@@ -5,6 +5,7 @@
         SINGLE,
         DOUBLE,
         TRIPLE,
-        APARTMENT
+        APARTMENT, 
+        PENTHOUSE 
     }
 }

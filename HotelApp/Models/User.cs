@@ -14,7 +14,7 @@
 
         public string PhoneNumber { get; set; }
 
-        public int Power { get; set; }
+        public bool IsAdmin { get; set; }
 
     }
 }

@@ -3,20 +3,19 @@
 namespace HotelApp.Views
 {
     /// <summary>
-    /// Interaction logic for HomePage.xaml
+    /// Interaction logic for AddRoomWindow.xaml
     /// </summary>
-    public partial class HomePage : Window
+    public partial class AddRoomWindow : Window
     {
-        public HomePage()
+        public AddRoomWindow()
         {
             InitializeComponent();
         }
-
         private void BackClick(object sender, RoutedEventArgs e)
         {
-            StartWindow startWindow = new StartWindow();
+            AdminPage adminPage = new AdminPage();
             App.Current.MainWindow.Close();
-            App.Current.MainWindow = startWindow;
+            App.Current.MainWindow = adminPage;
             App.Current.MainWindow.Show();
         }
     }

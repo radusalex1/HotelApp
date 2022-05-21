@@ -1,0 +1,79 @@
+﻿<Window x:Class="HotelApp.Views.AddRoomWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HotelApp.Views" 
+        xmlns:ctx="clr-namespace:HotelApp.ViewModels"
+        mc:Ignorable="d"
+        Title="AddRoomWindow" Height="800" Width="585">
+    <Window.DataContext>
+        <ctx:AddRoomViewModel/>
+    </Window.DataContext>
+
+    <Window.Resources>
+        <Style x:Key="RoundedButtonStyle" TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="#FF5A3F32"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="10,10,10,10" Background="{TemplateBinding Background}">
+                            <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding  Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"  Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding  VerticalContentAlignment}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#492C1D"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    
+    <Grid Background="#a5a58d">
+        <ScrollViewer HorizontalScrollBarVisibility="Auto">
+            <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Center" Width="450">
+
+                <StackPanel Orientation="Horizontal">
+                    <Button Style="{StaticResource RoundedButtonStyle}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,20,0,0" Width="60" Cursor="Hand" BorderThickness="0" FontFamily="Segoe UI Black" FontWeight="Bold" FontSize="20" Height="60" Click="BackClick">
+                        <Image Source="D:\Facultate\FaculatateAnul2_sem2\MVP\HotelApp\HotelApp\Assets\Back.png" />
+                    </Button>
+
+                </StackPanel>
+                <Label Content="ROOM NUMBER" HorizontalAlignment="Center" VerticalAlignment="Top" FontFamily="Segoe UI Black" FontSize="20"/>
+                <TextBox HorizontalAlignment="Center" Height="50" MaxLength="35" 
+                         VerticalAlignment="Top" Width="400" FontFamily="Segoe UI Black"
+                         FontSize="20" BorderThickness="2" BorderBrush="Black" 
+                         HorizontalContentAlignment="Center" 
+                         VerticalContentAlignment="Center" Background="Transparent" 
+                         Text="{Binding RoomNumber}"/>
+
+                <Label Content="NUMBER OF PERSONS" HorizontalAlignment="Center" VerticalAlignment="Top" FontFamily="Segoe UI Black" FontSize="20"/>
+                <TextBox HorizontalAlignment="Center" Height="50" MaxLength="35" VerticalAlignment="Top" Width="400" FontFamily="Segoe UI Black" FontSize="20" BorderThickness="2" BorderBrush="Black" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="Transparent" 
+                         Text="{Binding  NumberOfPersons}"/>
+
+                <Label Content="CATEGORY" HorizontalAlignment="Center" VerticalAlignment="Top" FontFamily="Segoe UI Black" FontSize="20"/>
+                <TextBox HorizontalAlignment="Center" Height="50" MaxLength="35" VerticalAlignment="Top" Width="400" FontFamily="Segoe UI Black" FontSize="20" BorderThickness="2" BorderBrush="Black" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="Transparent" 
+                         Text="{Binding Category}"/>
+
+                <Label Content="FEATURES" HorizontalAlignment="Center" VerticalAlignment="Top" FontFamily="Segoe UI Black" FontSize="20"/>
+                <TextBox HorizontalAlignment="Center" Height="50" VerticalAlignment="Top" Width="400" FontFamily="Segoe UI Black" FontSize="20" BorderThickness="2" BorderBrush="Black" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="Transparent" 
+                         Text="{Binding Features}"/>
+
+                <Label Content="{Binding ErrorMessage}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,10,0,0" Height="35" Width="390" FontSize="20" FontFamily="Segoe UI Black" Foreground="Red" HorizontalContentAlignment="Center"/>
+
+                <Button Style="{StaticResource RoundedButtonStyle}" 
+                        Content="Add Room" HorizontalAlignment="Center" 
+                        Margin="0,20,0,50" Width="400" Cursor="Hand" 
+                        BorderThickness="0" FontFamily="Segoe UI Black"
+                        FontWeight="Bold" FontSize="20" Height="60" 
+                        Command="{Binding AddRoomCommand}" CommandParameter="{Binding ElementName=passwordBox}"/>
+
+
+            </StackPanel>
+        </ScrollViewer>
+        
+    </Grid>
+    
+</Window>

@@ -80,15 +80,31 @@ namespace HotelApp.ViewModels
                 UserRepository userRepository= new UserRepository();    
                 if(userRepository.LogInCheckCredentials(Email,password))
                 {
-                    var x = 3;
-                    ///go to main menu with logged user
-                    HomePage homePage = new HomePage();
-                    HomeViewModel homeViewModel =
-                        new HomeViewModel(userRepository.GetUser(Email));
-                    homePage.DataContext = homeViewModel;
-                    App.Current.MainWindow.Close();
-                    App.Current.MainWindow = homePage;
-                    homePage.Show();
+                    var user = userRepository.GetUser(Email);
+
+                    if (user.IsAdmin == true)
+                    {
+                        ///pagina de admini;
+                        AdminPage adminPage = new AdminPage();
+                        AdminViewModel adminViewModel = 
+                            new AdminViewModel(user);
+                        adminPage.DataContext = adminViewModel;
+                        App.Current.MainWindow.Close();
+                        App.Current.MainWindow = adminPage;
+                        App.Current.MainWindow.Show();
+
+                    }
+                    else
+                    {
+                        ///go to main menu with logged user
+                        HomePage homePage = new HomePage();
+                        HomeViewModel homeViewModel =
+                            new HomeViewModel(user);
+                        homePage.DataContext = homeViewModel;
+                        App.Current.MainWindow.Close();
+                        App.Current.MainWindow = homePage;
+                        homePage.Show();
+                    }
                 }
                 else
                 {

@@ -27,8 +27,7 @@ namespace HotelApp.Repositories
         }
 
         public void AddPrice(Prices price)
-        {
- 
+        { 
             hotelContext.Prices.Add(price);
             hotelContext.SaveChanges();
         }

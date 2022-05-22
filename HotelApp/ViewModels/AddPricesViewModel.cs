@@ -3,7 +3,7 @@ using HotelApp.Models;
 using HotelApp.Repositories;
 using HotelApp.Views;
 using System;
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
 using System.Windows.Input;
 
 namespace HotelApp.ViewModels
@@ -17,12 +17,13 @@ namespace HotelApp.ViewModels
         {
             pricesRepository = new PricesRepository();
             roomRepository = new RoomRepository();
-            this.Rooms = new ObservableCollection<Room>(roomRepository.GetAllRooms());
+            this.Rooms = new List<Room>(roomRepository.GetAllRooms());
+
             this.StartDate = DateTime.Now.Date;
             this.EndDate = DateTime.Now.Date;
         }
 
-        public ObservableCollection<Room> Rooms { get; }
+        public List<Room> Rooms { get; }
 
         private Room selectedItemCombobox;
         public Room SelectedItemCombobox
@@ -113,7 +114,6 @@ namespace HotelApp.ViewModels
         }
 
         private ICommand addPriceCommand;
-
         public ICommand AddPriceCommand
         {
             get
@@ -124,24 +124,18 @@ namespace HotelApp.ViewModels
         }
         
         public void AddPrice(object param)
-        {
-
-            Room room = new()
-            {
-                NumberOfPersons = this.SelectedItemCombobox.NumberOfPersons,
-                Category = this.SelectedItemCombobox.Category,
-                Features = this.SelectedItemCombobox.Features,
-                RoomNumber = this.SelectedItemCombobox.RoomNumber
-            };
-
+        { 
             Prices price = new()
             {
-                Room=room,
+                Room = roomRepository.GetRoomById(SelectedItemCombobox.Id),
                 PricePerNight = this.PricePerNight,
                 StartDate = this.StartDate,
                 EndDate = this.EndDate,
             };
 
+            //pricesRepository.
+            
+           
             pricesRepository.AddPrice(price);
 
             PricesPage pricesPage = new PricesPage();

@@ -1,14 +1,16 @@
-﻿<Window x:Class="HotelApp.Views.AdminPage"
+﻿<Window x:Class="HotelApp.Views.UpdateRoomsPage"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HotelApp.Views"
         xmlns:ctx="clr-namespace:HotelApp.ViewModels"
+        xmlns:help="clr-namespace:HotelApp.Helps"
         mc:Ignorable="d"
-        Title="AdminPage" Height="700" Width="1000">
+        Title="UpdateRoomsPage" Height="1000" Width="1435">
 
     <Window.DataContext>
-        <ctx:AdminViewModel/>
+        <ctx:UpdateRoomsViewModel/>
     </Window.DataContext>
 
     <Window.Resources>
@@ -29,19 +31,48 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+
+        <help:TemplateSelector x:Key="Selector"/>
+        <DataTemplate x:Key="ListTemplate">
+            <StackPanel Orientation="Horizontal" Background="Transparent">
+                <TextBlock Text="{Binding RoomNumber}" HorizontalAlignment="Left" Width="400"/>
+                <TextBlock Text="{Binding NumberOfPersons}" Width="100"/>
+                <TextBlock Text="{Binding Category}" Width="300"/>
+                <TextBlock Text="{Binding Features}" Width="300"/>
+
+            </StackPanel>
+        </DataTemplate>
     </Window.Resources>
-    <Grid Background="#a5a58d">
+
+    <Grid  Background="#a5a58d">
 
         <Button Style="{StaticResource RoundedButtonStyle}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,20,0,0" Width="60" Cursor="Hand" BorderThickness="0" FontFamily="Segoe UI Black" FontWeight="Bold" FontSize="20" Height="60" Click="BackClick">
             <Image Source="D:\Facultate\FaculatateAnul2_sem2\MVP\HotelApp\HotelApp\Assets\Back.png" />
         </Button>
 
-        <Label Content="{Binding User.Name}" HorizontalAlignment="Left" Margin="110,25,0,0" VerticalAlignment="Top" FontFamily="Segoe UI Black" FontSize="20" Height="154" Width="360"/>
+        <Label Content="Room Number" FontFamily="Segoe UI Black" FontSize="20" Margin="50,172,825,355"/>
+        <Label Content="Number Of Persons" FontFamily="Segoe UI Black" FontSize="20" Margin="270,172,660,345"/>
+        <Label Content="Category" FontFamily="Segoe UI Black" FontSize="20" Margin="561,172,375,350"/>
+        <Label Content="Features" FontFamily="Segoe UI Black" FontSize="20" Margin="760,169,170,358"/>
+
+        <ListBox HorizontalAlignment="Left"
+                 Height="375" VerticalAlignment="Top" 
+                 Width="1240" Margin="50,210,0,0" 
+                 Background="Transparent" 
+                 BorderBrush="Black"
+                 FontFamily="Segoe UI Black" 
+                 FontSize="20" 
+                 ScrollViewer.VerticalScrollBarVisibility="Visible"
+                 ItemsSource="{Binding Rooms}"
+                 ItemTemplateSelector="{StaticResource Selector}" 
+                 SelectedItem="{Binding SelectedItemList}">
+
+        </ListBox>
 
         <Button Style="{StaticResource RoundedButtonStyle}" 
-                Content="Update Rooms" 
+                Content="AddRoom" 
                 HorizontalAlignment="Left" 
-                Margin="50,0,0,245" 
+                Margin="60,0,0,200" 
                 VerticalAlignment="Bottom" 
                 Width="200" Cursor="Hand" 
                 BorderThickness="0" 
@@ -49,12 +80,12 @@
                 FontFamily="Segoe UI Black" 
                 FontWeight="Bold" 
                 FontSize="20"
-                Command="{Binding UpdateRoomsWindow}"/>
+                Command="{Binding AddRoomCommand}"/>
 
         <Button Style="{StaticResource RoundedButtonStyle}" 
-                Content="Update Prices" 
+                Content="Delete Room" 
                 HorizontalAlignment="Left" 
-                Margin="280,0,0,245" 
+                Margin="300,0,0,200" 
                 VerticalAlignment="Bottom" 
                 Width="200" Cursor="Hand" 
                 BorderThickness="0" 
@@ -62,7 +93,19 @@
                 FontFamily="Segoe UI Black" 
                 FontWeight="Bold" 
                 FontSize="20"
-                Command="{Binding UpdatePrices}"/>
+                Command="{Binding DeleteRoomCommand}"/>
 
+        <Button Style="{StaticResource RoundedButtonStyle}" 
+                Content="Update Room" 
+                HorizontalAlignment="Left" 
+                Margin="540,0,0,200" 
+                VerticalAlignment="Bottom" 
+                Width="200" Cursor="Hand" 
+                BorderThickness="0" 
+                Height="60" 
+                FontFamily="Segoe UI Black" 
+                FontWeight="Bold" 
+                FontSize="20"
+                Command="{Binding UpdateRoomCommand}"/>
     </Grid>
 </Window>

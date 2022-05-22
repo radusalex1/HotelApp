@@ -2,6 +2,7 @@
 using HotelApp.Helps;
 using HotelApp.Models;
 using HotelApp.Views;
+using System;
 using System.Linq;
 using System.Windows.Input;
 
@@ -9,6 +10,7 @@ namespace HotelApp.ViewModels
 {
     public class StartViewModel
     {
+        public HotelContext hotelContext;
         public StartViewModel()
         {
             try
@@ -16,11 +18,10 @@ namespace HotelApp.ViewModels
                 var appSettings =
                     System.Configuration.ConfigurationManager.AppSettings;
 
-                HotelContext hotelContext =
+               this.hotelContext=
                     new HotelContext(appSettings["ConnectionStrings"]);
 
                 hotelContext.Database.CreateIfNotExists();
-                //hotelContext.Database.SqlQuery<User>();
 
                 if (!hotelContext.Users.Any())
                 {
@@ -37,7 +38,7 @@ namespace HotelApp.ViewModels
 
                     User useradmin = new()
                     {
-                        Name = "admin",
+                        Name = "Radu_admin",
                         Surname = "admin",
                         PhoneNumber = "0735125929",
                         IsAdmin = true,
@@ -71,8 +72,27 @@ namespace HotelApp.ViewModels
 
                    
                     hotelContext.Offers.Add(offer1);
+                    Room room = new()
+                    {
+                        RoomNumber = 1,
+                        NumberOfPersons = 2,
+                        Category = "Double",
+                        Features = "Asdzxc"
+                    };
+                    hotelContext.Rooms.Add(room);
+
+                    Prices price = new()
+                    {
+                        Room=room,
+                        PricePerNight = 150,
+                        StartDate = DateTime.Now.Date,
+                        EndDate = DateTime.Now.Date.AddDays(30),
+                    };
+                    hotelContext.Prices.Add(price); 
+
 
                     hotelContext.SaveChanges();
+                    hotelContext.Dispose();
                 }
             }
             catch
@@ -113,7 +133,7 @@ namespace HotelApp.ViewModels
         public void SignUp(object param)
         {
             RegisterPage registerPage = new RegisterPage();
-            RegisterViewModel registerViewModel = new RegisterViewModel();
+            RegisterViewModel registerViewModel = new RegisterViewModel(hotelContext);
             registerPage.DataContext = registerViewModel;
             App.Current.MainWindow.Close();
             App.Current.MainWindow = registerPage;

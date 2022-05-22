@@ -6,13 +6,44 @@ using System.Windows.Input;
 
 namespace HotelApp.ViewModels
 {
-    public class AddRoomViewModel : NotifyPropertyChangedHelp
+    public class UpdateRoomViewModel : NotifyPropertyChangedHelp
     {
         RoomRepository roomRepository;
 
-        public AddRoomViewModel()
+        public UpdateRoomViewModel()
         {
-            this.roomRepository=new RoomRepository();
+
+        }
+
+        public UpdateRoomViewModel(Room room)
+        {
+            this.roomRepository = new RoomRepository();
+            this.Room = room;
+            this.OldRoomNumber = room.RoomNumber;
+            this.RoomNumber = room.RoomNumber;
+            this.NumberOfPersons = room.NumberOfPersons;
+            this.Category = room.Category;
+            this.Features = room.Features;
+        }
+
+        private Room _Room;
+        public Room Room
+        {
+            get { return this._Room; }
+            set
+            {
+                this._Room = value;
+            }
+        }
+
+        private int _OldRoomNumber;
+        public int OldRoomNumber
+        {
+            get { return _OldRoomNumber; }
+            set
+            {
+                _OldRoomNumber = value;
+            }
         }
 
         private int _RoomNumber { get; set; }
@@ -22,17 +53,27 @@ namespace HotelApp.ViewModels
             set
             {
                 _RoomNumber = value;
-                if(roomRepository.CheckRoomNumber(RoomNumber)==false)
+                if (RoomNumber != OldRoomNumber)
+                {
+                    if (roomRepository.CheckRoomNumber(RoomNumber) == false)
+                    {
+                        CanExecuteCommand = true;
+                        ErrorMessage = "";
+                    }
+                    else
+                    {
+                        CanExecuteCommand = false;
+                        ErrorMessage = "Room number already in user";
+                    }
+                }
+                else
                 {
                     CanExecuteCommand = true;
                     ErrorMessage = "";
                 }
-                else
-                {
-                    CanExecuteCommand = false;
-                    ErrorMessage = "Room number already in user";
-                }
+
                 NotifyPropertyChanged("RoomNumber");
+
             }
         }
 
@@ -43,7 +84,6 @@ namespace HotelApp.ViewModels
             set
             {
                 _NumberOfPersons = value;
-
                 NotifyPropertyChanged("NumberOfPersons");
             }
         }
@@ -78,37 +118,35 @@ namespace HotelApp.ViewModels
 
         private bool CanExecuteCommand { get; set; } = false;
 
-        private ICommand addRoomCommand;
-        public ICommand AddRoomCommand
+        private ICommand updateRoomCommand;
+        public ICommand UpdateRoomCommand
         {
             get
             {
-                CanExecuteCommand = true;
-                addRoomCommand = new RelayCommand(AddRoom, param => CanExecuteCommand);
-                return addRoomCommand;
+                updateRoomCommand = new RelayCommand(UpdateRoom, param => CanExecuteCommand);
+                return updateRoomCommand;
             }
         }
 
-        public void AddRoom(object param)
+        public void UpdateRoom(object param)
         {
-            Room room = new()
+            Room newRoom = new()
             {
                 RoomNumber = this.RoomNumber,
                 NumberOfPersons = this.NumberOfPersons,
                 Category = this.Category,
-                Features = this.Features
+                Features = this.Features,
             };
-
-            roomRepository.AddRoom(room);
-             
+            roomRepository.UpdateRoom(newRoom, this.OldRoomNumber);
 
             UpdateRoomsPage updateRoomsPage = new UpdateRoomsPage();
-            UpdateRoomsViewModel updateRoomsViewModel= new UpdateRoomsViewModel();
+            UpdateRoomsViewModel updateRoomsViewModel = new UpdateRoomsViewModel();
             updateRoomsPage.DataContext = updateRoomsViewModel;
             App.Current.MainWindow.Close();
             App.Current.MainWindow = updateRoomsPage;
             App.Current.MainWindow.Show();
 
         }
+
     }
 }

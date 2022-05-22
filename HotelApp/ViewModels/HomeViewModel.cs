@@ -60,7 +60,7 @@ namespace HotelApp.ViewModels
 
         }
 
-        public HomeViewModel(User user)
+        public HomeViewModel(User user, DBContext.HotelContext hotelContext)
         {
             this.User = user;
             this.offersRepository = new OffersRepository();

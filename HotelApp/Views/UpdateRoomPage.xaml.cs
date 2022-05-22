@@ -3,11 +3,11 @@
 namespace HotelApp.Views
 {
     /// <summary>
-    /// Interaction logic for AddRoomWindow.xaml
+    /// Interaction logic for UpdateRoomWindow.xaml
     /// </summary>
-    public partial class AddRoomWindow : Window
+    public partial class UpdateRoomPage : Window
     {
-        public AddRoomWindow()
+        public UpdateRoomPage()
         {
             InitializeComponent();
         }

@@ -16,6 +16,10 @@ namespace HotelApp.Repositories
                 new HotelContext(appSettings["ConnectionStrings"]);
         }
 
+        /// <summary>
+        /// Adds a user.
+        /// </summary>
+        /// <param name="user"></param>
         public void InsertUser(User user)
         {
             hotelContext.Users.Add(user);

@@ -6,11 +6,11 @@ namespace HotelApp.Models
     {
         public int Id { get; set; }
 
-        public string Name { get; set; }    
+        public string Name { get; set; }
 
-        public User User { get; set; }
+        public User User { get; set; } = null;
 
-        public Room Room { get; set; }
+        public Room Room { get; set; } = null;
 
         public Offer Offers { get; set; } = null;
 

@@ -1,0 +1,109 @@
+﻿<Window x:Class="HotelApp.Views.PricesPage"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HotelApp.Views" xmlns:ctx="clr-namespace:HotelApp.ViewModels" xmlns:help="clr-namespace:HotelApp.Helps"
+        mc:Ignorable="d"
+        Title="PricesPage" Height="1000" Width="1500">
+    
+    <Window.DataContext>
+        <ctx:PricesViewModel/>
+    </Window.DataContext>
+
+    <Window.Resources>
+        <Style x:Key="RoundedButtonStyle" TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="#FF5A3F32"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="10,10,10,10" Background="{TemplateBinding Background}">
+                            <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding  Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"  Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding  VerticalContentAlignment}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#492C1D"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <help:TemplateSelector x:Key="Selector"/>
+    </Window.Resources>
+
+    <Grid Background="#a5a58d">
+
+        <Button Style="{StaticResource RoundedButtonStyle}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,20,0,0" Width="60" Cursor="Hand" BorderThickness="0" FontFamily="Segoe UI Black" FontWeight="Bold" FontSize="20" Height="60" Click="BackClick">
+            <Image Source="D:\Facultate\FaculatateAnul2_sem2\MVP\HotelApp\HotelApp\Assets\Back.png" />
+        </Button>
+
+        <Label Content="Room Number" FontFamily="Segoe UI Black" FontSize="20" Margin="50,172,825,355"/>
+        <Label Content="Price Per Night" FontFamily="Segoe UI Black" FontSize="20" Margin="290,174,640,343"/>
+        <Label Content="Category" FontFamily="Segoe UI Black" FontSize="20" Margin="525,174,405,343"/>
+        <Label Content="StartDate" FontFamily="Segoe UI Black" FontSize="20" Margin="716,174,220,348"/>
+        <Label Content="EndDate" FontFamily="Segoe UI Black" FontSize="20" Margin="930,174,0,353"/>
+
+        <ListBox HorizontalAlignment="Left"
+                 Height="375" VerticalAlignment="Top" 
+                 Width="1300" Margin="50,210,0,0" 
+                 Background="Transparent" 
+                 BorderBrush="Black"
+                 FontFamily="Segoe UI Black" 
+                 FontSize="20" 
+                 ScrollViewer.VerticalScrollBarVisibility="Visible"
+                 ItemsSource="{Binding Prices}"
+                 ItemTemplateSelector="{StaticResource Selector}" 
+                 SelectedItem="{Binding SelectedItemList}">
+            
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Room.RoomNumber}" Width="150" />
+                        <TextBlock Text="{Binding PricePerNight}" Width="200" />
+                        <TextBlock Text="{Binding Room.Category}" Width="300"/>
+                        <TextBlock Text="{Binding StartDate}" Width="300" />
+                        <TextBlock Text="{Binding EndDate}"  Width="300"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <Button Style="{StaticResource RoundedButtonStyle}" 
+                Content="Add new Prices" 
+                HorizontalAlignment="Left" 
+                Margin="60,0,0,205" 
+                VerticalAlignment="Bottom" 
+                Width="200" Cursor="Hand" 
+                BorderThickness="0" Height="60" 
+                FontFamily="Segoe UI Black" 
+                FontWeight="Bold" 
+                FontSize="20" 
+                Command="{Binding AddPrice}"/>
+
+        <Button Style="{StaticResource RoundedButtonStyle}" 
+                Content="Delete Price" 
+                HorizontalAlignment="Left" 
+                Margin="360,0,0,205" 
+                VerticalAlignment="Bottom" 
+                Width="200" Cursor="Hand" 
+                BorderThickness="0" Height="60" 
+                FontFamily="Segoe UI Black" 
+                FontWeight="Bold" 
+                FontSize="20" 
+                Command="{Binding DeletePriceCommand}"/>
+
+        <Button Style="{StaticResource RoundedButtonStyle}" 
+                Content="Update Price" 
+                HorizontalAlignment="Left" 
+                Margin="645,0,0,205" 
+                VerticalAlignment="Bottom" 
+                Width="200" Cursor="Hand" 
+                BorderThickness="0" Height="60" 
+                FontFamily="Segoe UI Black" 
+                FontWeight="Bold" 
+                FontSize="20" 
+                Command="{Binding UpdatePrice}"/>
+    </Grid>
+</Window>

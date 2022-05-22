@@ -1,5 +1,5 @@
-﻿using HotelApp.Helps;
-using HotelApp.Models;
+﻿using HotelApp.DBContext;
+using HotelApp.Helps;
 using HotelApp.Repositories;
 using HotelApp.Views;
 using System.Text.RegularExpressions;
@@ -11,6 +11,16 @@ namespace HotelApp.ViewModels
 {
     public class LoginViewModel:NotifyPropertyChangedHelp
     {
+        private HotelContext hotelContext;
+        public LoginViewModel()
+        {
+
+        }
+        public LoginViewModel(HotelContext hotelContext)
+        {
+            this.hotelContext=hotelContext;
+        }
+
         private string _Email;
         public string Email
         {
@@ -87,7 +97,7 @@ namespace HotelApp.ViewModels
                         ///pagina de admini;
                         AdminPage adminPage = new AdminPage();
                         AdminViewModel adminViewModel = 
-                            new AdminViewModel(user);
+                            new AdminViewModel(user,hotelContext);
                         adminPage.DataContext = adminViewModel;
                         App.Current.MainWindow.Close();
                         App.Current.MainWindow = adminPage;
@@ -99,7 +109,7 @@ namespace HotelApp.ViewModels
                         ///go to main menu with logged user
                         HomePage homePage = new HomePage();
                         HomeViewModel homeViewModel =
-                            new HomeViewModel(user);
+                            new HomeViewModel(user,hotelContext);
                         homePage.DataContext = homeViewModel;
                         App.Current.MainWindow.Close();
                         App.Current.MainWindow = homePage;

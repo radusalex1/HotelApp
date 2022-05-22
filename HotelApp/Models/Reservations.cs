@@ -12,7 +12,7 @@ namespace HotelApp.Models
 
         public Room Room { get; set; } = null;
 
-        public Offer Offers { get; set; } = null;
+        public bool IsOffers { get; set; }
 
         public DateTime StartDate { get; set; }
 

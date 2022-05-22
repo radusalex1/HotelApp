@@ -17,12 +17,15 @@ namespace HotelApp.ViewModels
         {
             pricesRepository = new PricesRepository();
             roomRepository = new RoomRepository();
+
             this.Rooms = new List<Room>(roomRepository.GetAllRooms());
+
+            this.price = new Prices();
 
             this.StartDate = DateTime.Now.Date;
             this.EndDate = DateTime.Now.Date;
         }
-
+        private Prices price;
         public List<Room> Rooms { get; }
 
         private Room selectedItemCombobox;
@@ -124,19 +127,15 @@ namespace HotelApp.ViewModels
         }
         
         public void AddPrice(object param)
-        { 
-            Prices price = new()
-            {
-                Room = roomRepository.GetRoomById(SelectedItemCombobox.Id),
-                PricePerNight = this.PricePerNight,
-                StartDate = this.StartDate,
-                EndDate = this.EndDate,
-            };
+        {
+            ///aici e bug ca pune camera iar.
 
-            //pricesRepository.
-            
+            price.RoomId = this.SelectedItemCombobox.Id;
+            price.StartDate = this.StartDate;
+            price.EndDate = this.EndDate;
+            price.PricePerNight = this.PricePerNight;
            
-            pricesRepository.AddPrice(price);
+            pricesRepository.AddPrice(price,SelectedItemCombobox);
 
             PricesPage pricesPage = new PricesPage();
             PricesViewModel pricesViewModel = new PricesViewModel();

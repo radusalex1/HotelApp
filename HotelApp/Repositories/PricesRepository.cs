@@ -9,6 +9,8 @@ namespace HotelApp.Repositories
     public class PricesRepository
     {
         HotelContext hotelContext;
+        RoomRepository roomRepository;
+
         public PricesRepository()
         {
             var appSettings =
@@ -17,6 +19,7 @@ namespace HotelApp.Repositories
             this.hotelContext =
                   new HotelContext(appSettings["ConnectionStrings"]);
 
+            this.roomRepository = new RoomRepository();
         }
 
         public List<Prices> GetAllPrices()
@@ -26,9 +29,14 @@ namespace HotelApp.Repositories
                 .Where(p => p.Deleted == false && p.Room.Deleted==false).ToList();  
         }
 
-        public void AddPrice(Prices price)
+        public void AddPrice(Prices price,Room room)
         { 
             hotelContext.Prices.Add(price);
+            hotelContext.SaveChanges();
+
+            var res = hotelContext.Prices.FirstOrDefault(p => p.Id == price.Id);
+            res.Room = hotelContext.Rooms.FirstOrDefault(r => r.Id == room.Id);
+
             hotelContext.SaveChanges();
         }
 

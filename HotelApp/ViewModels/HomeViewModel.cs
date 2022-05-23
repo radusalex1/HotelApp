@@ -1,6 +1,8 @@
 ﻿using HotelApp.Helps;
 using HotelApp.Models;
 using HotelApp.Repositories;
+using HotelApp.Views;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
@@ -54,7 +56,7 @@ namespace HotelApp.ViewModels
 
 
         public OffersRepository offersRepository;
-       
+
         public HomeViewModel()
         {
 
@@ -73,7 +75,7 @@ namespace HotelApp.ViewModels
         {
             get
             {
-                if(bookCommand == null)
+                if (bookCommand == null)
                 {
                     bookCommand = new RelayCommand(BookOffer, param => CanExecuteCommand);
                 }
@@ -88,6 +90,27 @@ namespace HotelApp.ViewModels
             //    Name = SelectedItemList.Name,
             //    User = this.User,
             //}
+        }
+
+        private ICommand openBookRoomPageCommand;
+        public ICommand OpenBookRoomPageCommand
+        {
+            get
+            {
+                openBookRoomPageCommand = new RelayCommand(OpenBookRoomPage);
+                return openBookRoomPageCommand;
+            }
+        }
+
+        public void OpenBookRoomPage(object param)
+        {
+            BookRoomPage bookRoomPage=new BookRoomPage();
+            BookRoomViewModel bookRoomViewModel=new BookRoomViewModel(User);
+            bookRoomPage.DataContext = bookRoomViewModel;
+            App.Current.MainWindow.Close();
+            App.Current.MainWindow = bookRoomPage;
+            App.Current.MainWindow.Show();
+
         }
     }
 }

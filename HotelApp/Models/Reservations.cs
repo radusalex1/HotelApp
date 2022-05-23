@@ -8,15 +8,21 @@ namespace HotelApp.Models
 
         public string Name { get; set; }
 
-        public User User { get; set; } = null;
+        public int UserId { get; set; }
 
-        public Room Room { get; set; } = null;
+        public User User { get; set; }
 
-        public bool IsOffers { get; set; }
+        public int RoomId { get; set; }
+
+        public Room Room { get; set; }
+
+        public bool IsOffer { get; set; } = false;
 
         public DateTime StartDate { get; set; }
 
-        public DateTime EndDate { get; set; } 
+        public DateTime EndDate { get; set; }
+
+        public int Price { get; set; }
 
     }
 }

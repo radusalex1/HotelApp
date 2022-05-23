@@ -18,8 +18,8 @@ namespace HotelApp.ViewModels
                 var appSettings =
                     System.Configuration.ConfigurationManager.AppSettings;
 
-               this.hotelContext=
-                    new HotelContext(appSettings["ConnectionStrings"]);
+                this.hotelContext =
+                     new HotelContext(appSettings["ConnectionStrings"]);
 
                 hotelContext.Database.CreateIfNotExists();
 
@@ -70,7 +70,7 @@ namespace HotelApp.ViewModels
                         Price = 800
                     };
 
-                   
+
                     hotelContext.Offers.Add(offer1);
                     Room room = new()
                     {
@@ -83,13 +83,73 @@ namespace HotelApp.ViewModels
 
                     Prices price = new()
                     {
-                        Room=room,
+                        Room = room,
                         PricePerNight = 150,
                         StartDate = DateTime.Now.Date,
+                        EndDate = DateTime.Now.Date.AddDays(15),
+                    };
+                    hotelContext.Prices.Add(price);
+
+                    Prices price1 = new()
+                    {
+                        Room = room,
+                        PricePerNight = 160,
+                        StartDate = DateTime.Now.Date.AddDays(15),
                         EndDate = DateTime.Now.Date.AddDays(30),
                     };
-                    hotelContext.Prices.Add(price); 
+                    hotelContext.Prices.Add(price1);
 
+
+                    Reservations reservation = new()
+                    {
+                        Name = user.Name,
+                        User = user,
+                        Room = room,
+                        StartDate = DateTime.Now.Date,
+                        EndDate = DateTime.Now.Date.AddDays(30),
+
+                    };
+
+                    hotelContext.Reservations.Add(reservation);
+                    hotelContext.SaveChanges();
+
+                    var reservation1 = hotelContext.Reservations
+                        .FirstOrDefault(r => r.Id == reservation.Id);
+
+                    var pricesList = hotelContext.Prices
+                        .Where(p => p.RoomId == room.Id)
+                        .OrderBy(p => p.StartDate).ToList();
+
+                    int totalPrice = 0;
+
+                    foreach (var price2 in pricesList)
+                    {
+                        if (reservation1.StartDate >= price2.StartDate && reservation1.EndDate <= price2.EndDate)
+                        {
+                            totalPrice += (reservation1.EndDate - reservation1.StartDate).Days * price2.PricePerNight;
+                            break;
+                        }
+                        else
+                        {
+                            if (reservation1.StartDate <= price2.EndDate && reservation1.StartDate >= price2.StartDate)
+                            {
+                                totalPrice += (price2.EndDate - reservation1.StartDate).Days * price2.PricePerNight;
+                            }
+                            else
+                            {
+                                if (reservation1.EndDate >= price2.StartDate && reservation1.EndDate <= price2.EndDate)
+                                {
+                                    totalPrice += (reservation1.EndDate - price2.StartDate).Days * price2.PricePerNight;
+                                }
+                                else
+                                {
+                                    totalPrice += (price2.EndDate - price2.StartDate).Days * price2.PricePerNight;
+                                }
+                            }
+                        }
+                    }
+
+                    reservation1.Price = totalPrice;
 
                     hotelContext.SaveChanges();
                     hotelContext.Dispose();

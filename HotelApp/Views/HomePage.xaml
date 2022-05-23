@@ -45,11 +45,11 @@
     </Window.Resources>
 
     <Grid Background="#a5a58d">
-        
+
         <Button Style="{StaticResource RoundedButtonStyle}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,20,0,0" Width="60" Cursor="Hand" BorderThickness="0" FontFamily="Segoe UI Black" FontWeight="Bold" FontSize="20" Height="60" Click="BackClick">
             <Image Source="D:\Facultate\FaculatateAnul2_sem2\MVP\HotelApp\HotelApp\Assets\Back.png" />
         </Button>
-        
+
         <Label Content="{Binding User.Name}" HorizontalAlignment="Left" Margin="110,25,456,0" VerticalAlignment="Top" FontFamily="Segoe UI Black" FontSize="20"/>
         <Label Content="Offer Name" FontFamily="Segoe UI Black" FontSize="20" Margin="50,172,825,355"/>
         <Label Content="Number Of Persons" FontFamily="Segoe UI Black" FontSize="20" Margin="225,172,705,345"/>
@@ -72,7 +72,7 @@
         </ListBox>
 
         <Button Style="{StaticResource RoundedButtonStyle}" 
-                Content="Book" 
+                Content="Book Offer" 
                 HorizontalAlignment="Left" 
                 Margin="60,0,0,205" 
                 VerticalAlignment="Bottom" 
@@ -81,7 +81,19 @@
                 FontFamily="Segoe UI Black" 
                 FontWeight="Bold" 
                 FontSize="20" 
-                Command="{Binding AddToCartCommand}"/>
+                Command="{Binding BookOfferCommand}"/>
+
+        <Button Style="{StaticResource RoundedButtonStyle}" 
+                Content="Book Room" 
+                HorizontalAlignment="Left" 
+                Margin="320,0,0,205" 
+                VerticalAlignment="Bottom" 
+                Width="200" Cursor="Hand" 
+                BorderThickness="0" Height="60" 
+                FontFamily="Segoe UI Black" 
+                FontWeight="Bold" 
+                FontSize="20" 
+                Command="{Binding OpenBookRoomPageCommand}"/>
 
     </Grid>
 </Window>

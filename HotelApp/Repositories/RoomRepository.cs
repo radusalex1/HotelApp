@@ -1,7 +1,11 @@
 ﻿using HotelApp.DBContext;
 using HotelApp.Models;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Data.Entity;
 using System.Linq;
+
 
 namespace HotelApp.Repositories
 {
@@ -25,7 +29,7 @@ namespace HotelApp.Repositories
         /// <returns></returns>
         public int GetNumberOfRoomsBasedOnCategory(string Category)
         {
-           return hotelContext.Rooms.Where(r=>r.Category == Category).Count();
+            return hotelContext.Rooms.Where(r => r.Category == Category).Count();
         }
 
         /// <summary>
@@ -45,7 +49,7 @@ namespace HotelApp.Repositories
         /// <returns></returns>
         public bool CheckRoomNumber(int number)
         {
-            return hotelContext.Rooms.Any(r => r.RoomNumber == number && r.Deleted==false);
+            return hotelContext.Rooms.Any(r => r.RoomNumber == number && r.Deleted == false);
         }
 
         /// <summary>
@@ -54,7 +58,7 @@ namespace HotelApp.Repositories
         /// <returns></returns>
         public List<Room> GetAllRooms()
         {
-            return hotelContext.Rooms.Where(r=>r.Deleted==false).ToList();
+            return hotelContext.Rooms.Where(r => r.Deleted == false).ToList();
         }
 
         /// <summary>
@@ -62,7 +66,7 @@ namespace HotelApp.Repositories
         /// </summary>
         public void DeleteRoom(Room room)
         {
-            var res = hotelContext.Rooms.FirstOrDefault(r => r.RoomNumber == room.RoomNumber && r.Deleted==false);
+            var res = hotelContext.Rooms.FirstOrDefault(r => r.RoomNumber == room.RoomNumber && r.Deleted == false);
             res.Deleted = true;
             hotelContext.SaveChanges();
         }
@@ -71,13 +75,13 @@ namespace HotelApp.Repositories
         /// Updates a room;
         /// </summary>
         /// <param name="room"></param>
-        public void UpdateRoom(Room room,int OldRoomNumber)
+        public void UpdateRoom(Room room, int OldRoomNumber)
         {
-            var res = hotelContext.Rooms.FirstOrDefault(r => r.RoomNumber == OldRoomNumber && r.Deleted==false);
+            var res = hotelContext.Rooms.FirstOrDefault(r => r.RoomNumber == OldRoomNumber && r.Deleted == false);
 
-            res.RoomNumber= room.RoomNumber;
-            res.NumberOfPersons=room.NumberOfPersons;
-            res.Features=room.Features;
+            res.RoomNumber = room.RoomNumber;
+            res.NumberOfPersons = room.NumberOfPersons;
+            res.Features = room.Features;
             res.Category = room.Category;
 
             hotelContext.SaveChanges();
@@ -86,6 +90,41 @@ namespace HotelApp.Repositories
         public Room GetRoomById(int id)
         {
             return hotelContext.Rooms.FirstOrDefault(r => r.Id == id);
+        }
+
+        public ObservableCollection<Room> GetAvailableRooms(DateTime startDate, DateTime endDate, int numberOfPersons)
+        {
+            ///still not working properly;
+            ///lista toate rezervarile
+            List<Reservations> res1 = hotelContext.Reservations
+                .Include(r => r.Room)
+                .Where(r => r.Room.NumberOfPersons == numberOfPersons)
+                .ToList();
+
+            ///lista toate camere de nr pers; presupunem ca toate camerele sunt libere
+            List<Room> RoomsNrPers = new List<Room>(hotelContext.Rooms.Where(r => r.NumberOfPersons == numberOfPersons).ToList());
+
+            foreach (var r in res1)
+            {
+                ///datele selectate sunt in afara oricarei rezervari
+                if (endDate <= r.StartDate || startDate >= r.EndDate)
+                {
+                    if (!RoomsNrPers.Contains(r.Room))
+                    {
+                        RoomsNrPers.Add(r.Room);
+                    }
+                }
+                else
+                {
+                    RoomsNrPers.Remove(r.Room);
+                    break;
+                }
+            }
+
+            ObservableCollection<Room> availableRooms = new ObservableCollection<Room>(RoomsNrPers);
+
+            return availableRooms;
+
         }
     }
 }

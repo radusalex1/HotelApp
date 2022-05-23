@@ -46,5 +46,17 @@ namespace HotelApp.Repositories
             res.Deleted = true;
             hotelContext.SaveChanges();
         }
+
+        /// <summary>
+        /// order asc by startdate.
+        /// </summary>
+        /// <param name="roomId"></param>
+        /// <returns></returns>
+        public List<Prices> GetPricesForRoom(int roomId)
+        {
+            return hotelContext.Prices
+                       .Where(p => p.RoomId == roomId)
+                       .OrderBy(p => p.StartDate).ToList();
+        }
     }
 }

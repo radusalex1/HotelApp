@@ -18,6 +18,8 @@ namespace HotelApp.ViewModels
         }
 
 
+        private bool CanExecuteCommand { get; set; } = false;
+
         private Room _SelectedItemList;
         public Room SelectedItemList
         {
@@ -32,8 +34,6 @@ namespace HotelApp.ViewModels
                 NotifyPropertyChanged("SelectedItemList");
             }
         }
-
-        private bool CanExecuteCommand { get; set; } = false;
 
         private ObservableCollection<Room> _Rooms;
         public ObservableCollection<Room> Rooms

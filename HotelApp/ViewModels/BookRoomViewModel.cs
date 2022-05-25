@@ -195,7 +195,7 @@ namespace HotelApp.ViewModels
                 EndDate=EndDate,
                 Price=Price
             };
-            reservationRepository.AddReservation(reservations);
+            reservationRepository.AddReservation(reservations,NumberOfPersons);
         }
 
         private int CalculatePrice()

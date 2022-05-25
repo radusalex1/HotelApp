@@ -81,7 +81,7 @@
                 FontFamily="Segoe UI Black" 
                 FontWeight="Bold" 
                 FontSize="20" 
-                Command="{Binding BookOfferCommand}"/>
+                Command="{Binding BookCommand}"/>
 
         <Button Style="{StaticResource RoundedButtonStyle}" 
                 Content="Book Room" 

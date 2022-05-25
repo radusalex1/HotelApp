@@ -55,10 +55,14 @@ namespace HotelApp.ViewModels
 
 
         public OffersRepository offersRepository;
+        public ReservationRepository reservationRepository;
+        public RoomRepository roomRepository;
 
         public HomeViewModel()
         {
             this.offersRepository = new OffersRepository();
+            this.reservationRepository = new ReservationRepository();
+            this.roomRepository = new RoomRepository();
             this.Offers = new ObservableCollection<Offer>(offersRepository.GetUpcomingOffers());
         }
 
@@ -66,6 +70,8 @@ namespace HotelApp.ViewModels
         {
             this.User = user;
             this.offersRepository = new OffersRepository();
+            this.reservationRepository = new ReservationRepository();
+            this.roomRepository = new RoomRepository();
             this.Offers = new ObservableCollection<Offer>(offersRepository.GetUpcomingOffers());
         }
 
@@ -75,17 +81,26 @@ namespace HotelApp.ViewModels
         {
             get
             {
-                if (bookCommand == null)
-                {
-                    bookCommand = new RelayCommand(BookOffer, param => CanExecuteCommand);
-                }
+               
+               bookCommand = new RelayCommand(BookOffer, param => CanExecuteCommand);
+                
                 return bookCommand;
             }
         }
 
         public void BookOffer(object param)
         {
-            throw new NotImplementedException();
+            Reservations reservation = new()
+            {
+                Name = SelectedItemList.Name,
+                UserId = User.Id,
+                IsOffer = true,
+                StartDate=SelectedItemList.StartDate,
+                EndDate=SelectedItemList.EndDate,
+                Price=SelectedItemList.Price,
+               
+            };
+            reservationRepository.AddReservation(reservation,SelectedItemList.NumberOfPersons);
         }
 
         private ICommand openBookRoomPageCommand;
@@ -129,6 +144,9 @@ namespace HotelApp.ViewModels
             App.Current.MainWindow= reservationHistoryPage;
             App.Current.MainWindow.Show();
         }
+
+
+
 
     }
 }

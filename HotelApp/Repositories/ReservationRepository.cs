@@ -19,59 +19,79 @@ namespace HotelApp.Repositories
                   new HotelContext(appSettings["ConnectionStrings"]);
         }
 
-        public void AddReservation(Reservations reservation)
+        public void AddReservation(Reservations reservation, int NumberOfPersons)
         {
-            Reservations reservations = new Reservations()
+            if (reservation.IsOffer == true)
             {
-                Name = reservation.Name,
-                User = hotelContext.Users.FirstOrDefault(u => u.Id == reservation.User.Id),
-                Room = hotelContext.Rooms.FirstOrDefault(r => r.Id == reservation.Room.Id),
-                StartDate = reservation.StartDate,
-                EndDate = reservation.EndDate,
-            };
+                Reservations reservations = new()
+                {
+                    Name = reservation.Name,
+                    User = hotelContext.Users.FirstOrDefault(u => u.Id == reservation.UserId),
+                    
+                    Room = hotelContext.Rooms.FirstOrDefault(r => r.NumberOfPersons == NumberOfPersons),
+                    StartDate = reservation.StartDate,
+                    EndDate = reservation.EndDate,
+                    IsOffer = true,
+                    Price = reservation.Price,
+                };
+                reservations.UserId=reservation.UserId;
+                reservations.RoomId = reservations.Room.Id;
 
-            hotelContext.Reservations.Add(reservations);
-            hotelContext.SaveChanges();
-
-            ///Adds a price
-            var reservation1 = hotelContext.Reservations
-                       .FirstOrDefault(r => r.Id == reservations.Id);
-
-            var pricesList = hotelContext.Prices
-                .Where(p => p.RoomId == reservations.Room.Id)
-                .OrderBy(p => p.StartDate).ToList();
-
-            int totalPrice = 0;
-
-            foreach (var price2 in pricesList)
+                hotelContext.Reservations.Add(reservations);
+            }
+            else
             {
-                if (reservation1.StartDate >= price2.StartDate && reservation1.EndDate <= price2.EndDate)
+                Reservations reservations = new Reservations()
                 {
-                    totalPrice += (reservation1.EndDate - reservation1.StartDate).Days * price2.PricePerNight;
-                    break;
-                }
-                else
+                    Name = reservation.Name,
+                    User = hotelContext.Users.FirstOrDefault(u => u.Id == reservation.User.Id),
+                    Room = hotelContext.Rooms.FirstOrDefault(r => r.Id == reservation.Room.Id),
+                    StartDate = reservation.StartDate,
+                    EndDate = reservation.EndDate,
+                };
+
+                hotelContext.Reservations.Add(reservations);
+                hotelContext.SaveChanges();
+
+                ///Adds a price
+                var reservation1 = hotelContext.Reservations
+                           .FirstOrDefault(r => r.Id == reservations.Id);
+
+                var pricesList = hotelContext.Prices
+                    .Where(p => p.RoomId == reservations.Room.Id)
+                    .OrderBy(p => p.StartDate).ToList();
+
+                int totalPrice = 0;
+
+                foreach (var price2 in pricesList)
                 {
-                    if (reservation1.StartDate <= price2.EndDate && reservation1.StartDate >= price2.StartDate)
+                    if (reservation1.StartDate >= price2.StartDate && reservation1.EndDate <= price2.EndDate)
                     {
-                        totalPrice += (price2.EndDate - reservation1.StartDate).Days * price2.PricePerNight;
+                        totalPrice += (reservation1.EndDate - reservation1.StartDate).Days * price2.PricePerNight;
+                        break;
                     }
                     else
                     {
-                        if (reservation1.EndDate >= price2.StartDate && reservation.EndDate <= price2.EndDate)
+                        if (reservation1.StartDate <= price2.EndDate && reservation1.StartDate >= price2.StartDate)
                         {
-                            totalPrice += (reservation1.EndDate - price2.StartDate).Days * price2.PricePerNight;
+                            totalPrice += (price2.EndDate - reservation1.StartDate).Days * price2.PricePerNight;
                         }
                         else
                         {
-                            totalPrice += (price2.EndDate - price2.StartDate).Days * price2.PricePerNight;
+                            if (reservation1.EndDate >= price2.StartDate && reservation.EndDate <= price2.EndDate)
+                            {
+                                totalPrice += (reservation1.EndDate - price2.StartDate).Days * price2.PricePerNight;
+                            }
+                            else
+                            {
+                                totalPrice += (price2.EndDate - price2.StartDate).Days * price2.PricePerNight;
+                            }
                         }
                     }
                 }
+
+                reservation1.Price = totalPrice;
             }
-
-            reservation1.Price = totalPrice;
-
             hotelContext.SaveChanges();
 
 
@@ -85,7 +105,7 @@ namespace HotelApp.Repositories
                    .Include(r => r.User)
                    .Where(r => r.User.Id == user.Id).ToList();
 
-            
+
 
             return reservations;
         }

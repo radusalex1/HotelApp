@@ -58,7 +58,7 @@ namespace HotelApp.ViewModels
         public AdminViewModel()
         {
             this.offersRepository = new OffersRepository();
-            this.Offers = new ObservableCollection<Offer>(offersRepository.GetUpcomingOffers());
+            this.Offers = new ObservableCollection<Offer>(offersRepository.GetAllOffers());
         }
 
         private OffersRepository offersRepository;

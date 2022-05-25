@@ -94,7 +94,7 @@ namespace HotelApp.Repositories
 
         public ObservableCollection<Room> GetAvailableRooms(DateTime startDate, DateTime endDate, int numberOfPersons)
         {
-            ///still not working properly;
+            ///still not working properly;its working i guess:)
             ///lista toate rezervarile
             List<Reservations> res1 = hotelContext.Reservations
                 .Include(r => r.Room)

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace HotelApp.Models
 {
@@ -18,7 +17,8 @@ namespace HotelApp.Models
         public int Price { get; set; }
 
         public string Description { get; set; }
-        
+
+        public bool Deleted { get; set; } = false;
 
     }
 }

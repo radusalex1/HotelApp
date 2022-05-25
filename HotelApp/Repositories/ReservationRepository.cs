@@ -1,6 +1,8 @@
 ﻿using HotelApp.DBContext;
 using HotelApp.Models;
 using System.Linq;
+using System.Data.Entity;
+using System.Collections.Generic;
 
 namespace HotelApp.Repositories
 {
@@ -71,6 +73,21 @@ namespace HotelApp.Repositories
             reservation1.Price = totalPrice;
 
             hotelContext.SaveChanges();
+
+
+        }
+        public List<Reservations> GetREservationsByUser(User user)
+        {
+            List<Reservations> reservations = new List<Reservations>();
+
+            reservations = hotelContext.Reservations
+                   .Include(r => r.Room)
+                   .Include(r => r.User)
+                   .Where(r => r.User.Id == user.Id).ToList();
+
+            
+
+            return reservations;
         }
     }
 }

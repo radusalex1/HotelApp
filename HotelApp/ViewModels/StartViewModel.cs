@@ -193,7 +193,7 @@ namespace HotelApp.ViewModels
         public void SignUp(object param)
         {
             RegisterPage registerPage = new RegisterPage();
-            RegisterViewModel registerViewModel = new RegisterViewModel(hotelContext);
+            RegisterViewModel registerViewModel = new RegisterViewModel();
             registerPage.DataContext = registerViewModel;
             App.Current.MainWindow.Close();
             App.Current.MainWindow = registerPage;

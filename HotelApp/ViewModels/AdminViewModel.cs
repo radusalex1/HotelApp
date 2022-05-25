@@ -1,7 +1,10 @@
 ﻿using HotelApp.DBContext;
 using HotelApp.Helps;
 using HotelApp.Models;
+using HotelApp.Repositories;
 using HotelApp.Views;
+using System;
+using System.Collections.ObjectModel;
 using System.Windows.Input;
 
 namespace HotelApp.ViewModels
@@ -19,17 +22,52 @@ namespace HotelApp.ViewModels
             }
         }
 
-        public AdminViewModel()
-        {
+        
 
+        private Offer _SelectedItemList;
+        public Offer SelectedItemList
+        {
+            get
+            {
+                return _SelectedItemList;
+            }
+            set
+            {
+                _SelectedItemList = value;
+                CanExecuteCommand = true;
+                NotifyPropertyChanged("SelectedItemList");
+            }
         }
 
-        HotelContext hotelContext;
+        private bool CanExecuteCommand { get; set; } = false;
 
-        public AdminViewModel(User user, DBContext.HotelContext hotelContext)
+        private ObservableCollection<Offer> _Offers;
+        public ObservableCollection<Offer> Offers
+        {
+            get
+            {
+                return _Offers;
+            }
+            set
+            {
+                _Offers = value;
+                NotifyPropertyChanged("Offers");
+            }
+        }
+
+        public AdminViewModel()
+        {
+            this.offersRepository = new OffersRepository();
+            this.Offers = new ObservableCollection<Offer>(offersRepository.GetUpcomingOffers());
+        }
+
+        private OffersRepository offersRepository;
+
+        public AdminViewModel(User user)
         {
             this.User = user;
-            this.hotelContext = hotelContext;
+            this.User = user;
+            
         }
 
         private ICommand updateRoomsWindow;
@@ -71,5 +109,26 @@ namespace HotelApp.ViewModels
             App.Current.MainWindow = pricesPage;
             App.Current.MainWindow.Show();
         }
+
+        private ICommand openAddOfferPageCommand;
+        public ICommand OpenAddOfferPageCommand
+        {
+            get
+            {
+                openAddOfferPageCommand = new RelayCommand(OpenAddOfferPage);
+                return openAddOfferPageCommand;
+            }
+        }
+
+        public void OpenAddOfferPage(object param)
+        {
+            AddOfferPage addOfferPage = new AddOfferPage();
+            AddOfferViewModel addOfferViewModel=new AddOfferViewModel(User);
+            addOfferPage.DataContext = addOfferViewModel;
+            App.Current.MainWindow.Close();
+            App.Current.MainWindow = addOfferPage;
+            App.Current.MainWindow.Show();
+        }
+
     }
 }

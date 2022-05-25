@@ -3,7 +3,6 @@ using HotelApp.Models;
 using HotelApp.Repositories;
 using HotelApp.Views;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
@@ -59,10 +58,11 @@ namespace HotelApp.ViewModels
 
         public HomeViewModel()
         {
-
+            this.offersRepository = new OffersRepository();
+            this.Offers = new ObservableCollection<Offer>(offersRepository.GetUpcomingOffers());
         }
 
-        public HomeViewModel(User user, DBContext.HotelContext hotelContext)
+        public HomeViewModel(User user)
         {
             this.User = user;
             this.offersRepository = new OffersRepository();
@@ -85,11 +85,7 @@ namespace HotelApp.ViewModels
 
         public void BookOffer(object param)
         {
-            //Reservations reservation = new()
-            //{
-            //    Name = SelectedItemList.Name,
-            //    User = this.User,
-            //}
+            throw new NotImplementedException();
         }
 
         private ICommand openBookRoomPageCommand;
@@ -112,5 +108,27 @@ namespace HotelApp.ViewModels
             App.Current.MainWindow.Show();
 
         }
+
+
+        private ICommand openReservationHistoryPageCommand;
+        public ICommand OpenReservationHistoryPageCommand
+        {
+            get
+            {
+                openReservationHistoryPageCommand = new RelayCommand(OpenReservationHistoryPage);
+                return openReservationHistoryPageCommand;
+            }
+        }
+
+        public void OpenReservationHistoryPage(object param)
+        {
+            ReservationHistoryPage reservationHistoryPage=new ReservationHistoryPage();
+            ReservationHistoryViewModel reservationHistoryViewModel=new ReservationHistoryViewModel(User);
+            reservationHistoryPage.DataContext = reservationHistoryViewModel;
+            App.Current.MainWindow.Close();
+            App.Current.MainWindow= reservationHistoryPage;
+            App.Current.MainWindow.Show();
+        }
+
     }
 }

@@ -1,0 +1,76 @@
+﻿<Window x:Class="HotelApp.Views.ReservationHistoryPage"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HotelApp.Views" xmlns:ctx="clr-namespace:HotelApp.ViewModels" xmlns:help="clr-namespace:HotelApp.Helps"
+        mc:Ignorable="d"
+        Title="ReservationHistoryPage" Height="1000" Width="1400">
+
+    <Window.DataContext>
+        <ctx:ReservationHistoryViewModel/>
+    </Window.DataContext>
+
+    <Window.Resources>
+        <Style x:Key="RoundedButtonStyle" TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="#FF5A3F32"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="10,10,10,10" Background="{TemplateBinding Background}">
+                            <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding  Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"  Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding  VerticalContentAlignment}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#492C1D"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <help:TemplateSelector x:Key="Selector"/>
+        
+    </Window.Resources>
+    <Grid Background="#a5a58d" >
+        
+        <Button Style="{StaticResource RoundedButtonStyle}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,20,0,0" Width="60" Cursor="Hand" BorderThickness="0" FontFamily="Segoe UI Black" FontWeight="Bold" FontSize="20" Height="60" 
+                Command="{Binding BackCommand}">
+            <Image Source="D:\Facultate\FaculatateAnul2_sem2\MVP\HotelApp\HotelApp\Assets\Back.png" />
+        </Button>
+
+        <Label Content="{Binding User.Name}" HorizontalAlignment="Left" Margin="110,25,0,0" VerticalAlignment="Top" FontFamily="Segoe UI Black" FontSize="20" Height="69" Width="305"/>
+
+        <Label Content="Name" FontFamily="Segoe UI Black" FontSize="20" Margin="50,172,825,355"/>
+        <Label Content="Room Number" FontFamily="Segoe UI Black" FontSize="20" Margin="225,172,705,345"/>
+        <Label Content="From" FontFamily="Segoe UI Black" FontSize="20" Margin="540,179,396,343"/>
+        <Label Content="Until" FontFamily="Segoe UI Black" FontSize="20" Margin="760,169,170,358"/>
+        <Label Content="Price" FontFamily="Segoe UI Black" FontSize="20" Margin="1030,177,-90,345"/>
+
+        <ListBox HorizontalAlignment="Left"
+                 Height="375" VerticalAlignment="Top" 
+                 Width="1240" Margin="50,210,0,0" 
+                 Background="Transparent" 
+                 BorderBrush="Black"
+                 FontFamily="Segoe UI Black" 
+                 FontSize="20" 
+                 ScrollViewer.VerticalScrollBarVisibility="Visible"
+                 ItemsSource="{Binding Reservations}"
+                 ItemTemplateSelector="{StaticResource Selector}">
+            
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding User.Name}" Width="150"/>
+                        <TextBlock Text="{Binding Room.RoomNumber}" Width="150"/>
+                        <TextBlock Text="{Binding StartDate}" Width="250"/>
+                        <TextBlock Text="{Binding EndDate}" Width="250"/>
+                        <TextBlock Text="{Binding Price}" Width="150"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+    </Grid>
+</Window>

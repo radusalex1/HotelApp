@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using HotelApp.ViewModels;
+using System.Windows;
 
 namespace HotelApp.Views
 {
@@ -14,6 +15,7 @@ namespace HotelApp.Views
         private void BackClick(object sender, RoutedEventArgs e)
         {
             HomePage homePage = new HomePage();
+            HomeViewModel homeViewModel = new HomeViewModel();
             App.Current.MainWindow.Close();
             App.Current.MainWindow = homePage;
             App.Current.MainWindow.Show();

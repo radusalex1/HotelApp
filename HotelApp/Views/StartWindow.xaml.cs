@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using HotelApp.DBContext;
+using System.Windows;
 
 namespace HotelApp.Views
 {
@@ -7,9 +8,18 @@ namespace HotelApp.Views
     /// </summary>
     public partial class StartWindow : Window
     {
+        HotelContext HotelContext;
+        public StartWindow(HotelContext hotelContext)
+        {
+
+            this.HotelContext = hotelContext;
+            InitializeComponent();
+        }
         public StartWindow()
         {
             InitializeComponent();
+
         }
+
     }
 }

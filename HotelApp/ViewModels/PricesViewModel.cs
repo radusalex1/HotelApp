@@ -46,7 +46,7 @@ namespace HotelApp.ViewModels
         public PricesViewModel()
         {
             this.pricesRepository = new PricesRepository();
-            Prices=new ObservableCollection<Prices>(pricesRepository.GetAllPrices());
+            Prices = new ObservableCollection<Prices>(pricesRepository.GetAllPrices());
         }
 
 

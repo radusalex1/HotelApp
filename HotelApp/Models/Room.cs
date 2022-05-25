@@ -13,5 +13,7 @@
         public string Features { get; set; }
 
         public bool Deleted { get; set; } = false;
+
+
     }
 }

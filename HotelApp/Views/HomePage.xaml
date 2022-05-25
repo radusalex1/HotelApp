@@ -95,5 +95,17 @@
                 FontSize="20" 
                 Command="{Binding OpenBookRoomPageCommand}"/>
 
+        <Button Style="{StaticResource RoundedButtonStyle}" 
+                Content="View Reservation History" 
+                HorizontalAlignment="Left" 
+                Margin="565,0,0,205" 
+                VerticalAlignment="Bottom" 
+                Width="310" Cursor="Hand" 
+                BorderThickness="0" Height="60" 
+                FontFamily="Segoe UI Black" 
+                FontWeight="Bold" 
+                FontSize="20" 
+                Command="{Binding OpenReservationHistoryPageCommand}"/>
+
     </Grid>
 </Window>

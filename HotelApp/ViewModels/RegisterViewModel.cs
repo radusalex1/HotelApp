@@ -174,12 +174,7 @@ namespace HotelApp.ViewModels
         private bool CanExecuteCommand { get; set; } = false;
 
         private ICommand signUpCommand;
-        private HotelContext hotelContext;
-
-        public RegisterViewModel(HotelContext hotelContext)
-        {
-            this.hotelContext = hotelContext;
-        }
+       
 
         public RegisterViewModel()
         {

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity;
+using System.Data.SqlClient;
 using System.Linq;
 
 
@@ -38,7 +39,15 @@ namespace HotelApp.Repositories
         /// <param name="room"></param>
         public void AddRoom(Room room)
         {
-            hotelContext.Rooms.Add(room);
+            //hotelContext.Rooms.Add(room);
+
+            var RoomNrPar = new SqlParameter("@RoomNr", room.RoomNumber); 
+            var NrPersPar = new SqlParameter("@NumberOfPersons",room.NumberOfPersons);
+            var CategoryPar= new SqlParameter("@Category",room.Category);
+            var FeaturesPar= new SqlParameter("@Features", room.Features);
+
+            hotelContext.Database.ExecuteSqlCommand("InsertRoom @RoomNr, @NumberOfPersons, @Category, @Features", RoomNrPar, NrPersPar, CategoryPar, FeaturesPar);
+
             hotelContext.SaveChanges();
         }
 
@@ -58,17 +67,23 @@ namespace HotelApp.Repositories
         /// <returns></returns>
         public List<Room> GetAllRooms()
         {
-            return hotelContext.Rooms.Where(r => r.Deleted == false).ToList();
+            var result = hotelContext.Database
+                .SqlQuery<Room>("GetAllRooms").ToList();
+
+            return result;
         }
 
         /// <summary>
         /// Deletes a room logically;
         /// </summary>
         public void DeleteRoom(Room room)
-        {
-            var res = hotelContext.Rooms.FirstOrDefault(r => r.RoomNumber == room.RoomNumber && r.Deleted == false);
-            res.Deleted = true;
+        { 
+            var roomIdParameter = new SqlParameter("@roomId", room.Id);
+
+            hotelContext.Database.ExecuteSqlCommand("DeleteRoomById @roomId", roomIdParameter);
+
             hotelContext.SaveChanges();
+
         }
 
         /// <summary>
@@ -79,17 +94,31 @@ namespace HotelApp.Repositories
         {
             var res = hotelContext.Rooms.FirstOrDefault(r => r.RoomNumber == OldRoomNumber && r.Deleted == false);
 
-            res.RoomNumber = room.RoomNumber;
-            res.NumberOfPersons = room.NumberOfPersons;
-            res.Features = room.Features;
-            res.Category = room.Category;
+            //res.RoomNumber = room.RoomNumber;
+            //res.NumberOfPersons = room.NumberOfPersons;
+            //res.Features = room.Features;
+            //res.Category = room.Category;
+
+            var RoomIdPar = new SqlParameter("@RoomId", res.Id);
+            var RoomNrPar = new SqlParameter("@RoomNr", room.RoomNumber);
+            var NrPersPar = new SqlParameter("@NumberOfPersons", room.NumberOfPersons);
+            var CategoryPar = new SqlParameter("@Category", room.Category);
+            var FeaturesPar = new SqlParameter("@Features", room.Features);
+
+            hotelContext.Database.ExecuteSqlCommand("UpdateRoom @RoomId, @RoomNr, @NumberOfPersons, @Category, @Features", RoomIdPar,RoomNrPar, NrPersPar, CategoryPar, FeaturesPar);
 
             hotelContext.SaveChanges();
         }
 
         public Room GetRoomById(int id)
         {
-            return hotelContext.Rooms.FirstOrDefault(r => r.Id == id);
+
+            var roomIdParameter = new SqlParameter("@roomId", id);
+
+            var result = hotelContext.Database
+                .SqlQuery<Room>("GetRoomById @roomId", roomIdParameter).FirstOrDefault();
+
+            return result;
         }
 
         public ObservableCollection<Room> GetAvailableRooms(DateTime startDate, DateTime endDate, int numberOfPersons)

@@ -26,21 +26,14 @@ namespace HotelApp.Repositories
         /// <returns></returns>
         public List<Offer> GetUpcomingOffers()
         {
+            ///aici trebuie lucrat pentru oferte care nu mai sunt valabile.
             var currentDate = DateTime.Now.Date;
-            List<Offer> offers = new List<Offer>(hotelContext.Offers.Where(o => o.StartDate >= currentDate && o.Deleted==false)
-                .OrderBy(r=>r.StartDate)
+            List<Offer> offers = new List<Offer>(hotelContext.Offers.Where(o => o.StartDate >= currentDate && o.Deleted == false)
+                .OrderBy(r => r.StartDate)
                 .ToList());
 
-            List<Offer> offersAvailable = new List<Offer>();
 
-            foreach (var offer in offers)
-            {
-                if(AvailableRooms(offer.NumberOfPersons,offer.StartDate,offer.EndDate)!=0)
-                {
-                    offersAvailable.Add(offer);
-                }
-            }
-            return offersAvailable;
+            return offers;
         }
 
         /// <summary>
@@ -55,35 +48,34 @@ namespace HotelApp.Repositories
 
         public int AvailableRooms(int NumberOfPersons, DateTime startDate, DateTime endDate)
         {
-            ///still not working properly;its working i guess:). not working now working:)
+            ///still not working properly;its working i guess:). not working, now working:)
+
             ///lista toate rezervarile
             List<Reservations> res1 = hotelContext.Reservations
                 .Include(r => r.Room)
-                .Where(r => r.Room.NumberOfPersons >= NumberOfPersons && r.Room.Deleted==false)
+                .Where(r => r.Room.NumberOfPersons >= NumberOfPersons && r.Room.Deleted == false)
                 .ToList();
 
             //!res1.Any(r => r.EndDate >= startDate && r.StartDate <= endDate)
 
             ///lista toate camere de nr pers; presupunem ca toate camerele sunt libere
-            List <Room> RoomsNrPers = new List<Room>(hotelContext.Rooms.Where(r => r.NumberOfPersons == NumberOfPersons && r.Deleted==false).ToList());
+            List<Room> RoomsNrPers = new List<Room>(hotelContext.Rooms.Where(r => r.NumberOfPersons >= NumberOfPersons && r.Deleted == false).ToList());
             List<Room> availableRooms = new List<Room>();
 
             foreach (var r in res1)
-            { 
-
-                if(r.EndDate<=startDate && r.StartDate >= endDate)
+            {
+                if (r.EndDate <= startDate && r.StartDate >= endDate)
                 {
                     availableRooms.Add(r.Room);
                 }
-
-            }           
+            }
 
             return availableRooms.Count();
         }
 
         public List<Offer> GetAllOffers()
         {
-            return hotelContext.Offers.OrderByDescending(o=>o.StartDate).ToList();
+            return hotelContext.Offers.OrderByDescending(o => o.StartDate).ToList();
         }
     }
 }

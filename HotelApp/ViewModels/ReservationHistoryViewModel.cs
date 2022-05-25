@@ -68,5 +68,7 @@ namespace HotelApp.ViewModels
             App.Current.MainWindow = homePage;
             homePage.Show();
         }
+
+
     }
 }

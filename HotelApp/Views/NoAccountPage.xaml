@@ -1,15 +1,14 @@
-﻿<Window x:Class="HotelApp.Views.BookRoomPage"
+﻿<Window x:Class="HotelApp.Views.NoAccountPage"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:HotelApp.Views" 
-        xmlns:ctx="clr-namespace:HotelApp.ViewModels" xmlns:help="clr-namespace:HotelApp.Helps"
+        xmlns:local="clr-namespace:HotelApp.Views" xmlns:help="clr-namespace:HotelApp.Helps" xmlns:ctx="clr-namespace:HotelApp.ViewModels"
         mc:Ignorable="d"
-        Title="BookRoomPage" Height="1000" Width="1000">
-
+        Title="NoAccountPage" Height="1000" Width="1000">
+    
     <Window.DataContext>
-        <ctx:BookRoomViewModel/>
+        <ctx:NoAccountViewModel/>
     </Window.DataContext>
 
     <Window.Resources>
@@ -44,10 +43,7 @@
 
     <Grid Background="#a5a58d" >
 
-        <Button Style="{StaticResource RoundedButtonStyle}" 
-                HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,20,0,0" 
-                Width="60" Cursor="Hand" BorderThickness="0" FontFamily="Segoe UI Black"
-                FontWeight="Bold" FontSize="20" Height="60" Command="{Binding BackCommand}">
+        <Button Style="{StaticResource RoundedButtonStyle}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,20,0,0" Width="60" Cursor="Hand" BorderThickness="0" FontFamily="Segoe UI Black" FontWeight="Bold" FontSize="20" Height="60" Click="BackClick">
             <Image Source="D:\Facultate\FaculatateAnul2_sem2\MVP\HotelApp\HotelApp\Assets\Back.png" />
         </Button>
 
@@ -105,18 +101,6 @@
                  SelectedItem="{Binding SelectedItemList}">
 
         </ListBox>
-
-        <Button Style="{StaticResource RoundedButtonStyle}" 
-                Content="Book Room" 
-                HorizontalAlignment="Left" 
-                Margin="45,0,0,35" 
-                VerticalAlignment="Bottom" 
-                Width="200" Cursor="Hand" 
-                BorderThickness="0" Height="60" 
-                FontFamily="Segoe UI Black" 
-                FontWeight="Bold" 
-                FontSize="20" 
-                Command="{Binding BookRoomCommand}"/>
 
         <Label Content="TotalPrice" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Segoe UI Black" FontSize="20" Margin="285,894,0,0" Height="65" Width="185"/>
 

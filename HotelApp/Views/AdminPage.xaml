@@ -55,7 +55,7 @@
         <Label Content="From" FontFamily="Segoe UI Black" FontSize="20" Margin="515,302,421,220"/>
         <Label Content="Until" FontFamily="Segoe UI Black" FontSize="20" Margin="740,299,190,228"/>
         <Label Content="Price" FontFamily="Segoe UI Black" FontSize="20" Margin="1030,309,-90,213"/>
-        
+
         <ListBox HorizontalAlignment="Left"
                  Height="375" VerticalAlignment="Top" 
                  Width="1240" Margin="30,344,0,0" 
@@ -108,6 +108,20 @@
                 FontWeight="Bold" 
                 FontSize="20"
                 Command="{Binding OpenAddOfferPageCommand}"/>
+
+
+        <Button Style="{StaticResource RoundedButtonStyle}" 
+                Content="See reservations status" 
+                HorizontalAlignment="Left" 
+                Margin="800,0,0,95" 
+                VerticalAlignment="Bottom" 
+                Width="280" Cursor="Hand" 
+                BorderThickness="0" 
+                Height="60" 
+                FontFamily="Segoe UI Black" 
+                FontWeight="Bold" 
+                FontSize="20"
+                Command="{Binding OpenReservatiosStatusPageCommand}"/>
 
     </Grid>
 </Window>

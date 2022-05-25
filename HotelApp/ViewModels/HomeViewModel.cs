@@ -4,6 +4,7 @@ using HotelApp.Repositories;
 using HotelApp.Views;
 using System;
 using System.Collections.ObjectModel;
+using System.Windows;
 using System.Windows.Input;
 
 namespace HotelApp.ViewModels
@@ -100,7 +101,18 @@ namespace HotelApp.ViewModels
                 Price=SelectedItemList.Price,
                
             };
+
+            if (MessageBox.Show("Do You want to pay know?", "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+            {
+                reservation.Status = "unpaid";
+            }
+            else
+            {
+                reservation.Status = "paid";
+            }
+
             reservationRepository.AddReservation(reservation,SelectedItemList.NumberOfPersons);
+
         }
 
         private ICommand openBookRoomPageCommand;

@@ -1,42 +1,33 @@
-﻿using HotelApp.Helps;
+﻿
+
+using HotelApp.Helps;
 using HotelApp.Models;
 using HotelApp.Repositories;
-using HotelApp.Views;
 using System;
 using System.Collections.ObjectModel;
-using System.Windows;
 using System.Windows.Input;
 
 namespace HotelApp.ViewModels
 {
-    public class BookRoomViewModel : NotifyPropertyChangedHelp
+    public class NoAccountViewModel:NotifyPropertyChangedHelp
     {
-        RoomRepository roomRepository;
-        ReservationRepository reservationRepository;
-        PricesRepository pricesRepository;
-
-        public BookRoomViewModel()
+        public NoAccountViewModel()
         {
-
-        }
-
-        public BookRoomViewModel(User user)
-        {
-            this.User = user;
+           
 
             StartDate = DateTime.Now.Date;
             EndDate = DateTime.Now.Date.AddDays(3);
             roomRepository = new RoomRepository();
-            reservationRepository=new ReservationRepository();
-            pricesRepository=new PricesRepository();
-
+            reservationRepository = new ReservationRepository();
+            pricesRepository = new PricesRepository();
         }
 
         private int _Price;
         public int Price
         {
-           get { return _Price; }
-           set { 
+            get { return _Price; }
+            set
+            {
                 _Price = value;
                 NotifyPropertyChanged("Price");
 
@@ -111,6 +102,9 @@ namespace HotelApp.ViewModels
             }
         }
 
+        private RoomRepository roomRepository;
+        private ReservationRepository reservationRepository;
+        private PricesRepository pricesRepository;
         private string _ErrorMessage;
         public string ErrorMessage
         {
@@ -136,11 +130,11 @@ namespace HotelApp.ViewModels
             {
                 _SelectedItemList = value;
                 CanExecuteCommand = true;
-                if(SelectedItemList != null)
+                if (SelectedItemList != null)
                 {
-                        Price = CalculatePrice();
+                    Price = CalculatePrice();
                 }
-               
+
                 NotifyPropertyChanged("SelectedItemList");
             }
         }
@@ -174,60 +168,6 @@ namespace HotelApp.ViewModels
         public void ShowAvailableRooms(object param)
         {
             Rooms = roomRepository.GetAvailableRooms(StartDate.Date, EndDate.Date, NumberOfPersons);
-        }
-
-        private ICommand bookRoomCommand;
-        public ICommand BookRoomCommand
-        {
-            get
-            {
-                bookRoomCommand = new RelayCommand(BookRoom, param => CanExecuteCommand);
-                return bookRoomCommand;
-            }
-        }
-
-        public void BookRoom(object param)
-        {
-            Reservations reservations = new Reservations()
-            {
-                Name=User.Name,
-                User=User,
-                Room=SelectedItemList,
-                StartDate=StartDate,
-                EndDate=EndDate,
-                Price=Price
-            };
-
-            if (MessageBox.Show("Do You want to pay know?", "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
-            {
-                reservations.Status = "unpaid";
-            }
-            else
-            {
-                reservations.Status = "paid";
-            }
-
-            reservationRepository.AddReservation(reservations,NumberOfPersons);
-        }
-
-        private ICommand backCommand;
-        public ICommand BackCommand
-        {
-            get
-            {
-                backCommand = new RelayCommand(BackToHomePage);
-                return backCommand;
-            }
-        }
-        public void BackToHomePage(object param)
-        {
-            HomePage homePage = new HomePage();
-            HomeViewModel homeViewModel =
-                new HomeViewModel(User);
-            homePage.DataContext = homeViewModel;
-            App.Current.MainWindow.Close();
-            App.Current.MainWindow = homePage;
-            homePage.Show();
         }
 
         private int CalculatePrice()
@@ -266,7 +206,7 @@ namespace HotelApp.ViewModels
                         else
                         {
                             ///aduna tot intervalul
-                            if(reservation1.StartDate<=price2.StartDate && reservation1.EndDate>=reservation1.EndDate)
+                            if (reservation1.StartDate <= price2.StartDate && reservation1.EndDate >= reservation1.EndDate)
                             {
                                 totalPrice += (price2.EndDate - price2.StartDate).Days * price2.PricePerNight;
                             }

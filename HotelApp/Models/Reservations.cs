@@ -24,5 +24,7 @@ namespace HotelApp.Models
 
         public int Price { get; set; }
 
+        public string Status { get; set; }
+
     }
 }

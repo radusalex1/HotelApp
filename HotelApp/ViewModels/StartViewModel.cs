@@ -107,7 +107,7 @@ namespace HotelApp.ViewModels
                         Room = room,
                         StartDate = DateTime.Now.Date,
                         EndDate = DateTime.Now.Date.AddDays(30),
-
+                        Status = "paid"
                     };
 
                     hotelContext.Reservations.Add(reservation);
@@ -198,6 +198,26 @@ namespace HotelApp.ViewModels
             App.Current.MainWindow.Close();
             App.Current.MainWindow = registerPage;
             registerPage.Show();
+        }
+
+        private ICommand _OpenNoAccountPage;
+        public ICommand OpenNoAccountPage
+        {
+            get
+            {
+                _OpenNoAccountPage = new RelayCommand(OpenAccountlessPage);
+                return _OpenNoAccountPage;
+            }
+        }
+        public void OpenAccountlessPage(object param)
+        {
+            NoAccountPage noAccountPage = new NoAccountPage();
+            NoAccountViewModel noAccountViewModel = new NoAccountViewModel();
+            noAccountPage.DataContext = noAccountViewModel;
+            App.Current.MainWindow.Close();
+            App.Current.MainWindow= noAccountPage;
+            App.Current.MainWindow.Show();
+
         }
     }
 }

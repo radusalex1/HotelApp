@@ -67,7 +67,9 @@ namespace HotelApp.ViewModels
         {
             this.User = user;
             this.User = user;
-            
+            this.offersRepository = new OffersRepository();
+            this.Offers = new ObservableCollection<Offer>(offersRepository.GetAllOffers());
+
         }
 
         private ICommand updateRoomsWindow;
@@ -127,6 +129,25 @@ namespace HotelApp.ViewModels
             addOfferPage.DataContext = addOfferViewModel;
             App.Current.MainWindow.Close();
             App.Current.MainWindow = addOfferPage;
+            App.Current.MainWindow.Show();
+        }
+
+        private ICommand _OpenReservatiosStatusPageCommand;
+        public ICommand OpenReservatiosStatusPageCommand
+        {
+            get
+            {
+                _OpenReservatiosStatusPageCommand = new RelayCommand(OpenStatusPage);
+                return _OpenReservatiosStatusPageCommand;
+            }
+        }
+        public void OpenStatusPage(object param)
+        {
+            ReservationStatusPage reservationStatusPage = new ReservationStatusPage();
+            ReservationStatusViewModel reservationStatusViewModel=new ReservationStatusViewModel(User);
+            reservationStatusPage.DataContext = reservationStatusViewModel;
+            App.Current.MainWindow.Close();
+            App.Current.MainWindow = reservationStatusPage;
             App.Current.MainWindow.Show();
         }
 

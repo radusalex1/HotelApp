@@ -27,12 +27,12 @@ namespace HotelApp.Repositories
                 {
                     Name = reservation.Name,
                     User = hotelContext.Users.FirstOrDefault(u => u.Id == reservation.UserId),
-                    
                     Room = hotelContext.Rooms.FirstOrDefault(r => r.NumberOfPersons == NumberOfPersons),
                     StartDate = reservation.StartDate,
                     EndDate = reservation.EndDate,
                     IsOffer = true,
                     Price = reservation.Price,
+                    Status=reservation.Status,
                 };
                 reservations.UserId=reservation.UserId;
                 reservations.RoomId = reservations.Room.Id;
@@ -48,6 +48,7 @@ namespace HotelApp.Repositories
                     Room = hotelContext.Rooms.FirstOrDefault(r => r.Id == reservation.Room.Id),
                     StartDate = reservation.StartDate,
                     EndDate = reservation.EndDate,
+                    Status=reservation.Status
                 };
 
                 hotelContext.Reservations.Add(reservations);
@@ -94,7 +95,6 @@ namespace HotelApp.Repositories
             }
             hotelContext.SaveChanges();
 
-
         }
         public List<Reservations> GetREservationsByUser(User user)
         {
@@ -108,6 +108,29 @@ namespace HotelApp.Repositories
 
 
             return reservations;
+        }
+
+        public List<Reservations> GetAllReservations()
+        {
+            return hotelContext.Reservations.ToList();
+        }
+
+        public void ChageStatusOfReservation(Reservations reservation)
+        {
+            var res = hotelContext.Reservations
+                .Include(r=>r.Room)
+                .Include(r=>r.User)
+                .FirstOrDefault(r => r.Id == reservation.Id);
+
+            if (res.Status == "paid")
+            {
+                res.Status = "unpaid";
+            }
+            else
+            {
+                res.Status = "paid";
+            }
+            hotelContext.SaveChanges();
         }
     }
 }
